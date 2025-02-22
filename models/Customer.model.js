@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-const mongoose = require("mongoose");
 
-const CustomerSchema = new mongoose.Schema(
+
+const CustomerSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -15,5 +15,5 @@ const CustomerSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Customer", CustomerSchema);
+export default mongoose.model("Customer", CustomerSchema);
 

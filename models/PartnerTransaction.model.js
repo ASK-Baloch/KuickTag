@@ -11,4 +11,4 @@ const PartnerTransactionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("PartnerTransaction", PartnerTransactionSchema);
+export default  mongoose.model("PartnerTransaction", PartnerTransactionSchema);

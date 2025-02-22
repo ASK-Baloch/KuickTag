@@ -10,4 +10,4 @@ const CardSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Card", CardSchema);
+export default  mongoose.model("Card", CardSchema);

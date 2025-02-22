@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-const mongoose = require("mongoose");
+
 
 const PaymentSchema = new mongoose.Schema(
   {
@@ -13,5 +13,5 @@ const PaymentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Payment", PaymentSchema);
+export default  mongoose.model("Payment", PaymentSchema);
 
