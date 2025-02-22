@@ -5,23 +5,30 @@ import fs from "fs";
 // Get All Customers with Filters
 export const getAllCustomers = async (req, res) => {
     try {
+        // Use req.query for filtering if needed
         const filters = req.query;
-        const customers = await Customer.find(filters);
+        const customers = await Customer.find(filters)
+          .populate('company')
+          .populate('referredBy')
+          .populate('createdBy');
         res.status(200).json(customers);
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
 
 // Get Single Customer by ID
 export const getCustomerById = async (req, res) => {
     try {
-        const customer = await Customer.findById(req.params.id);
-        if (!customer) return res.status(404).json({ message: "Customer not found" });
+        const customer = await Customer.findById(req.params.id)
+          .populate('company')
+          .populate('referredBy')
+          .populate('createdBy');
+        if (!customer) return res.status(404).json({ message: 'Customer not found' });
         res.status(200).json(customer);
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
 
 // Create Customer
@@ -30,20 +37,24 @@ export const createCustomer = async (req, res) => {
         const newCustomer = new Customer(req.body);
         await newCustomer.save();
         res.status(201).json(newCustomer);
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
 
 // Update Customer
 export const updateCustomer = async (req, res) => {
     try {
-        const updatedCustomer = await Customer.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedCustomer) return res.status(404).json({ message: "Customer not found" });
+        const updatedCustomer = await Customer.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          { new: true }
+        );
+        if (!updatedCustomer) return res.status(404).json({ message: 'Customer not found' });
         res.status(200).json(updatedCustomer);
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
 
 // Delete Customer
@@ -61,12 +72,16 @@ export const deleteCustomer = async (req, res) => {
 export const changeCustomerStatus = async (req, res) => {
     try {
         const { status } = req.body;
-        const customer = await Customer.findByIdAndUpdate(req.params.id, { status }, { new: true });
-        if (!customer) return res.status(404).json({ message: "Customer not found" });
-        res.status(200).json(customer);
-    } catch (error) {
+        const updatedCustomer = await Customer.findByIdAndUpdate(
+          req.params.id,
+          { status },
+          { new: true }
+        );
+        if (!updatedCustomer) return res.status(404).json({ message: 'Customer not found' });
+        res.status(200).json(updatedCustomer);
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
 
 // Import Customers via CSV
@@ -89,10 +104,11 @@ export const importCustomersCSV = async (req, res) => {
 export const getCustomerAnalytics = async (req, res) => {
     try {
         const totalCustomers = await Customer.countDocuments();
-        const activeCustomers = await Customer.countDocuments({ status: "active" });
-        const suspendedCustomers = await Customer.countDocuments({ status: "suspended" });
+        const activeCustomers = await Customer.countDocuments({ status: 'active' });
+        const suspendedCustomers = await Customer.countDocuments({ status: 'suspended' });
+        // You can add more analytics here if needed
         res.status(200).json({ totalCustomers, activeCustomers, suspendedCustomers });
-    } catch (error) {
+      } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+      }
 };
