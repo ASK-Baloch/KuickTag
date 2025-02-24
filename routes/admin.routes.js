@@ -1,10 +1,15 @@
 import { Router } from "express";
+import { loginAdmin } from "../controllers/admin.controller.js";
 import {getAllCompanies,getCompanyById,createCompany,updateCompany,deleteCompany} from "../controllers/company.controller.js";
 import {getAllPartners,getPartnerById,createPartner,updatePartner,deletePartner} from "../controllers/partner.controller.js";
 import {getAffiliates,createAffiliate,updateAffiliate,deleteAffiliate} from "../controllers/affiliate.controller.js";
 import {getDashboardStats} from "../controllers/dashboard.controller.js";
 import {getAllCustomers,getCustomerById,createCustomer,updateCustomer,deleteCustomer} from "../controllers/customer.controller.js"
 const router = Router();
+
+// login Admin 
+router.post("/login", loginAdmin);
+
 
 // Customer Routes
 router.get("/customers", getAllCustomers);

@@ -13,6 +13,6 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 
-app.use("/api/admin", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 export {app}
